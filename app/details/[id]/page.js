@@ -4,7 +4,7 @@ import { FiHome } from "react-icons/fi";
 
 export default async function Details({ params }) {
     console.log(params.id);
-    const res = await fetch(`http://localhost:3000/api/event?id=${params.id}`, { cache: "no-store" });
+    const res = await fetch(`http://localhost:3000/api/event/${params.id}`, { cache: "no-store" });
 
     // Check if the response is OK (status in the range 200-299)
     if (!res.ok) {

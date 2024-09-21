@@ -9,6 +9,14 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    Onwer_id: {
+        type: String,
+        required: true
+    },
+    Event_id: {
+        type: String,
+        required: true
+    },
     Fname: {
         type: String,
         required: true

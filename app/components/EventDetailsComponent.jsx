@@ -3,17 +3,20 @@ import Link from 'next/link';
 import { useState } from "react";
 import { MdPeopleAlt } from "react-icons/md";
 import { Modal, Button, Select } from "flowbite-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation"; // Importing navigation hooks
 
 export default function EventDetails({ details }) {
+    const router = useRouter();
+    const { data: session, status } = useSession();
 
-    console.log(details);
     const [openModal, setOpenModal] = useState(false);
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
-        year: "",
-        faculty: ""
+        Fname: "",
+        Lname: "",
+        Phonenumber: "",
+        Year: "",
+        Faculty: "",
     });
 
     const handleChange = (e) => {
@@ -24,40 +27,64 @@ export default function EventDetails({ details }) {
         });
     };
 
+    const submitDatax = {
+        ...formData,
+        Owner: session.user.id,
+        Event: details._id,
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Registration Data:", formData);
-        // Add form submission logic here
-        setOpenModal(false);
+        console.log("Registration Data:", submitDatax);
+        fetch("/api/myticket", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(submitDatax),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to submit form");
+                }
+                handleReset();
+                router.push("/home");
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Form Data Submitted:", data);
+            })
+            .catch((error) => {
+                console.error("Form Data Error:", error);
+            });
     };
 
     const handleReset = () => {
         setFormData({
-            firstName: "",
-            lastName: "",
-            phoneNumber: "",
-            year: "",
-            faculty: ""
+            Fname: "",
+            Lname: "",
+            Phonenumber: "",
+            Year: "",
+            Faculty: "",
         });
         setOpenModal(false);
     };
 
     return (
         <div>
-            {details.map((event) => (
-                <div key={event._id} className="w-screen mb-10"> {/* Unique key and spacing */}
+                <div key={details._id} className="w-11/12 mb-10"> {/* Unique key and spacing */}
                     <div className="w-CustomW h-14 bg-slate-500 -ml-10 mt-5 -mr-96 lg:-mr-0 content-center">
-                        <h1 className="font-bold text-white text-1xl ml-10">{event.title}</h1>
-                        <h1 className="font-light text-white text-1xl ml-10">{event.date}</h1> {/* Format date */}
+                        <h1 className="font-bold text-white text-1xl ml-10">{details.title}</h1>
+                        <h1 className="font-light text-white text-1xl ml-10">{details.date}</h1> {/* Format date */}
                     </div>
                     <div className="flex flex-col items-center">
                         <div className="w-11/12 shadow mt-10 rounded-3xl flex flex-col items-center">
                             <h1 className="absolute lg:right-52 mt-3 flex items-center">
-                                <MdPeopleAlt /> 0 / {event.maxjoin}
+                                <MdPeopleAlt /> 0 / {details.maxjoin}
                             </h1>
                             <div className="flex flex-col xl:flex-row content-center justify-center lg:justify-between items-center">
-                                <img src={event.image} alt="Event Image" className="w-8/12 lg:w-11/12 rounded-2xl mt-10 lg:m-10 lg:ml-16 -ml-5" />
-                                <pre className="text-xxs md:text-xss lg:text-sm">{event.description.replace(/\n/g, "<br />")}</pre> {/* Preserve line breaks */}
+                                <img src={details.image} alt="Event Image" className="w-8/12 lg:w-11/12 rounded-2xl mt-10 lg:m-10 lg:ml-16 -ml-5" />
+                                <pre className="text-xxs md:text-xss lg:text-sm">{details.description.replace(/\n/g, "<br />")}</pre> {/* Preserve line breaks */}
                             </div>
 
                             <button className="mt-5 w-9/12 lg:w-11/12 h-10 lg:h-14 bg-customRed rounded-3xl" onClick={() => setOpenModal(true)}>
@@ -70,8 +97,6 @@ export default function EventDetails({ details }) {
                         </div>
                     </div>
                 </div>
-            ))}
-
 
             {/* Modal for Registration */}
             <Modal show={openModal} size="lg" onClose={() => setOpenModal(false)}>
@@ -82,8 +107,8 @@ export default function EventDetails({ details }) {
                         <div className="w-2/4 pr-2"> {/* Add padding-right to create space */}
                             <input
                                 type="text"
-                                name="firstName"
-                                value={formData.firstName}
+                                name="Fname"
+                                value={formData.Fname}
                                 onChange={handleChange}
                                 className="w-full rounded-lg border border-slate-400"
                                 placeholder="FIRST NAME"
@@ -93,8 +118,8 @@ export default function EventDetails({ details }) {
                         <div className="w-2/4">
                             <input
                                 type="text"
-                                name="lastName"
-                                value={formData.lastName}
+                                name="Lname"
+                                value={formData.Lname}
                                 onChange={handleChange}
                                 placeholder="LAST NAME"
                                 className="w-full rounded-lg border border-slate-400"
@@ -107,8 +132,8 @@ export default function EventDetails({ details }) {
                         <div>
                             <input
                                 type="tel"
-                                name="phoneNumber"
-                                value={formData.phoneNumber}
+                                name="Phonenumber"
+                                value={formData.Phonenumber}
                                 className="w-full rounded-lg border border-slate-400"
                                 onChange={handleChange}
                                 placeholder="PHONE NUMBER"
@@ -117,8 +142,8 @@ export default function EventDetails({ details }) {
                         </div>
                         <div>
                             <Select
-                                name="year"
-                                value={formData.year}
+                                name="Year"
+                                value={formData.Year}
                                 onChange={handleChange}
                                 required
                             >
@@ -131,8 +156,8 @@ export default function EventDetails({ details }) {
                         </div>
                         <div>
                             <Select
-                                name="faculty"
-                                value={formData.faculty}
+                                name="Faculty"
+                                value={formData.Faculty}
                                 onChange={handleChange}
                                 required
                             >

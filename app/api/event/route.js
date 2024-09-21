@@ -3,6 +3,7 @@ import Myevent from "@/models/Myevent";
 export async function GET(request) {
     try {
         // Fetch all events from the database
+        
         const events = await Myevent.find();
 
         // Check if events are found

@@ -26,7 +26,7 @@ module.exports = {
         Custom: '2.00em',
       },
       width: {
-        CustomW: '105%',
+        CustomW: '112%',
       },
     },
   },
