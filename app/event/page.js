@@ -1,8 +1,16 @@
-import Navbar from '@/app/components/Navigation'
 import MyEventComponent from '@/app/components/MyEvent'
 import { FiHome } from "react-icons/fi";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function EventPage() {
+export default async function EventPage() {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      redirect("/signin");
+    }
+
     return (
         <div className = "custom-margin">
             <div className="flex items-center mt-10">

@@ -1,74 +1,85 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Modal } from "flowbite-react";
 import { Table } from "flowbite-react";
-
-const MyAttendee = [
-  {
-    id: 1,
-    image: "/EventIMG.png",
-    title: "AU FRESHY NIGHT",
-    date: "22 August 2024",
-    time: "16:00 - 22:30",
-  },
-  {
-    id: 2,
-    image: "/EventIMG.png",
-    title: "AU FRESHY NIGHT",
-    date: "22 August 2024",
-    time: "16:00 - 22:30",
-  },
-];
-
-const AttendeeList = [
-  {
-    id: 1,
-    name: "John Doe",
-    year: "1",
-    faculty: "Engineering",
-    phone: "0812345678",
-    code: "AU2024",
-    status: "REGISTERED",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    year: "1",
-    faculty: "Engineering",
-    phone: "0812345678",
-    code: "AU2024",
-    status: "JOINED",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    year: "1",
-    faculty: "Engineering",
-    phone: "0812345678",
-    code: "AU2024",
-    status: "JOINED",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    year: "1",
-    faculty: "Engineering",
-    phone: "0812345678",
-    code: "AU2024",
-    status: "JOINED",
-  },
-  
-];
+import { useSession } from "next-auth/react"; // Importing authentication hooks
+import { useRouter } from "next/navigation"; // Importing navigation hooks
 
 export default function Myevent() {
+  const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
+  const { data: session, status } = useSession();
+  const [Myevents, setMyevents] = useState([]);
+  const [AttendeeList, setAttendeeList] = useState([]);
+  const loading = status === "loading";
+  
+  useEffect(() => {
+    if (!loading && session) {
+      fetchMyEvents();
+      console.log(Myevents);
+    }
+  }, [loading, session]);
+
+  async function fetchMyEvents() {
+    if (!session || !session.user) {
+      console.error("No user session available.");
+      router.push("/signin");
+      return;
+    }
+    console.log(session.user.id);
+    const response = await fetch(`/api/myevent?id=${session.user.id}`);
+
+    if (response.status === 404) {
+      console.log("No events found.");
+      setMyevents([]);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch events");
+    }
+    const data = await response.json();
+    console.log("Fetched Events:", data);
+    setMyevents(data);
+    return data;
+  }
+
+  const handleMyAttendee = (Event_id) => {
+    console.log("Fetching Attendee : ", Event_id);
+    fetchMyAttendee(Event_id);
+    setOpenModal(true)
+  };
+
+  async function fetchMyAttendee(Event_id) {
+    if (!session || !session.user) {
+      console.error("No user session available.");
+      router.push("/signin");
+      return;
+    }
+    console.log(session.user.id);
+    const response = await fetch(`/api/myattendee?id=${Event_id}`);
+
+    if (response.status === 404) {
+      console.log("No Attendee found.");
+      setAttendeeList([]);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch Attendee");
+    }
+    const data = await response.json();
+    console.log("Fetched Attendee:", data);
+    setAttendeeList(data);
+    return data;
+  }
 
   return (
     <div className="p-4">
       <div className="flex flex-wrap gap-3 xl:gap-20 md:gap-6">
-        {MyAttendee.map((event) => (
+        {Myevents.map((event) => (
           <div
-            key={event.id}
+            key={event.Event_id}
             className="relative w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72  xl:w-72 xl:h-96"
           >
             <img
@@ -80,12 +91,12 @@ export default function Myevent() {
             <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-white w-full h-14 sm:h-12 md:h-14">
               <h1 className="font-semibold ml-2">{event.title}</h1>
               <h1 className="font-light text-xs ml-2">
-                Date & Time : {event.date} / {event.time}
+                Date & Time : {event.date}
               </h1>
             </div>
 
             <button
-              onClick={() => setOpenModal(true)}
+              onClick={() => handleMyAttendee(event.Event_id)}
               className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-rose-200/80 w-full text-center content-center h-12 rounded-bl-3xl rounded-br-3xl font-light cursor-pointer"
             >
               MORE DETAILS
@@ -113,23 +124,23 @@ export default function Myevent() {
               </Table.Head>
               <Table.Body className="divide-y">
                 {AttendeeList.map((attendee) => (
-                  <Table.Row key={attendee.id}>
+                  <Table.Row key={attendee._doc.Attendee_id}>
                     <Table.Cell>
                       <div className="flex flex-col">
-                        <span>{attendee.name}</span>
+                        <span>{attendee.ticket.Fname} {attendee.ticket.Lname}</span>
                         <span className="text-sm text-gray-500">
-                          Year: {attendee.year} | Faculty: {attendee.faculty} | Phone: {attendee.phone}
+                          Year: {attendee.ticket.Year} | Faculty: {attendee.ticket.Faculty} | Phone: {attendee.ticket.Phonenumber}
                         </span>
                       </div>
                     </Table.Cell>
-                    <Table.Cell>{attendee.code}</Table.Cell>
+                    <Table.Cell>{attendee.ticket.Code}</Table.Cell>
                     <Table.Cell>
                       <span
                         className={`${
-                          attendee.status === "JOINED" ? "text-green-500" : "text-orange-500"
+                          attendee._doc.Status === "JOINED" ? "text-green-500" : "text-orange-500"
                         }`}
                       >
-                        {attendee.status}
+                        {attendee._doc.Status}
                       </span>
                     </Table.Cell>
                     <Table.Cell>

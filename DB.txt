@@ -10,11 +10,11 @@ MaxJOin
 
 [Attendee]
 
-ATT_ID
-E_ID
-CurrentJoin
+ATT_ID -
+E_ID -
+Tickets_ID
+CurrentJoin -
 NAME
-CODE
 STATUS
 
 [Tickets]

@@ -3,14 +3,18 @@ import Myevent from "@/models/Myevent";
 export async function POST(request) {
     try {
         const body = await request.json();
-        const id = body.Owner_id;
 
-        const eventData = {
+        const newEvent = new Myevent({
             ...body,
-            Owner_id: id, // Use Owner_id from session
-        };
+            Event_id: "none"
+        });
+        await newEvent.save();
 
-        await Myevent.create(eventData);
+        newEvent.Event_id = newEvent._id.toString();
+        await newEvent.save();
+        
+        console.log(newEvent);
+
         return new Response(JSON.stringify({ message: "Event created successfully" }), {
             status: 201,
         });
@@ -21,6 +25,7 @@ export async function POST(request) {
         );
     }
 }
+
 
 export async function GET(request) {
     try {
@@ -81,36 +86,19 @@ export async function PUT(request) {
 }
 
 
-async function DELETE(request) {
+export async function DELETE(request) {
     try {
-        const session = await getSession({ req });
-        if (!session) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
-        }
+        const body = await request.json();
+        console.log(body);
 
-        const { id } = request.params;
-        const event = await Myevent.findOne({ _id: id });
-        if (!event) {
-            return new Response(JSON.stringify({ error: "Event not found" }), {
-                status: 404,
-            });
-        }
+        const deletedEvent = await Myevent.findByIdAndDelete(body._id);
 
-        if (event.Owner_id !== session.user.id) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
-        }
-
-        await Myevent.deleteOne({ _id: id });
-        return new Response(JSON.stringify({ message: "Event deleted successfully" }), {
+        return new Response(JSON.stringify({ message: "Event DELETE successfully" }), {
             status: 200,
         });
     } catch (error) {
         return new Response(
-            JSON.stringify({ error: "Event deletion failed", details: error.message }),
+            JSON.stringify({ error: "Event DELETE failed", details: error.message }),
             { status: 500 }
         );
     }

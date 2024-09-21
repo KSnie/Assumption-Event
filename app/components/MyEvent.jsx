@@ -58,6 +58,7 @@ export default function Myevent() {
 
     if (mode === "create") {
         // Create event
+        console.log("Submitting Form Data:", submitData);
         fetch("/api/myevent", {
             method: "POST",
             headers: {
@@ -167,6 +168,30 @@ export default function Myevent() {
     return data;
   }
 
+  const deleteById = () => {
+    if (!selectedEvent) return;
+    if (!confirm("Are you sure you want to delete this event?")) return;
+
+    fetch(`/api/myevent`, {
+      method: "DELETE",
+      body: JSON.stringify(selectedEvent)
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete event");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Event Deleted:", data);
+        fetchMyEvents();
+        handleReset();
+      })
+      .catch((error) => {
+        console.error("Delete Error:", error);
+      });
+  }
+
   return (
     <div className="p-4">
       <div className="flex flex-wrap gap-3 xl:gap-20 md:gap-6">
@@ -198,7 +223,13 @@ export default function Myevent() {
 
       <Modal show={openModal} size="3xl" onClose={handleReset} popup>
         <Modal.Body>
-          <h1 className="font-semibold mt-5 text-lg text-slate-400">{mode === "create" ? "CREATE EVENT" : "UPDATE EVENT"}</h1>
+          <div className="flex justify-between">
+            <h1 className="font-semibold mt-5 text-lg text-slate-400">{mode === "create" ? "CREATE EVENT" : "UPDATE EVENT"}</h1>
+            { mode === "update" && (
+              <button onClick={deleteById} className="text-rose-400 font-semibold">REMOVE EVENT</button>
+            )}
+          </div>
+
           <div className="space-y-6 mt-5">
             <form onSubmit={handleSubmit}>
               <div className="sm:flex justify-between items-center">

@@ -24,7 +24,7 @@ export default function Signinpage() {
             setMessage(`Error: ${result.error}`);
         } else {
             setMessage("Login successful!");
-            router.push("/");
+            router.push("/home");
         }
     };
 

@@ -1,0 +1,59 @@
+import Myticket from "@/models/Mytickets";
+
+export async function POST(request) {
+    try {
+        const body = await request.json();
+
+        const newTicket = new Myticket({
+            ...body,
+            T_ID: "none"
+        });
+        await newTicket.save();
+
+        newTicket.T_ID = newTicket._id.toString();
+        await newTicket.save();
+        
+        console.log(newTicket);
+
+        return new Response(JSON.stringify({ message: "Ticket created successfully" }), {
+            status: 201,
+        });
+    } catch (error) {
+        return new Response(
+            JSON.stringify({ error: "Ticket creation failed", details: error.message }),
+            { status: 500 }
+        );
+    }
+}
+
+export async function GET(request) {
+    try {
+        // Use URLSearchParams to extract query parameters
+        const url = new URL(request.url);
+        const id = url.searchParams.get("id"); // Assuming you're sending the id as a query parameter
+
+        // Validate the id
+        if (!id) {
+            return new Response(
+                JSON.stringify({ error: "ID parameter is required" }),
+                { status: 400 }
+            );
+        }
+
+        const tickets = await Myticket.find({ Attendee_id: id });
+
+        // Check if tickets are found
+        if (tickets.length === 0) {
+            return new Response(JSON.stringify({ message: "Not Found" }), {
+                status: 404,
+            });
+        }
+
+        return new Response(JSON.stringify(tickets), { status: 200 });
+    } catch (error) {
+        return new Response(
+            JSON.stringify({ error: "Failed to fetch tickets", details: error.message }),
+            { status: 500 }
+        );
+    }
+}
