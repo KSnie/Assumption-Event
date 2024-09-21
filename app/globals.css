@@ -1,0 +1,38 @@
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #4b5563 ;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Open Sans", system-ui, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.custom-margin {
+  @apply xl:ml-72 lg:ml-72 md:ml-72 sm:ml-72 ml-5;
+}
+
+.custom-margin2 {
+  @apply xl:ml-64 lg:ml-64 md:ml-64 sm:ml-64 ml-0;
+}
