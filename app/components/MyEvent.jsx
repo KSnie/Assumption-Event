@@ -154,6 +154,7 @@ export default function Myevent() {
   };
 
   const handleEditClick = (event) => {
+    console.log("Edit Event:", event);
     setFormData({
       title: event.title,
       date: event.date, // Ensure date format is correct for the input
@@ -234,6 +235,7 @@ export default function Myevent() {
 
         <button className="relative w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96" onClick={() => {
           setMode("create");
+          setSelectedEvent(null);
           setOpenModal(true);
         }}>
           <div className="bg-rose-100 w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96 rounded-3xl flex justify-center items-center">
@@ -258,7 +260,7 @@ export default function Myevent() {
                   <SingleImageDropzone
                     width={200}
                     height={200}
-                    value={file}
+                    value={file? file : selectedEvent?.image}
                     onChange={(file) => {
                       setFile(file);
                     }}
