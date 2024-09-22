@@ -6,11 +6,16 @@ import { Modal } from "flowbite-react"; // Correct for flowbite-react
 import { useSession } from "next-auth/react"; // Importing authentication hooks
 import { useRouter } from "next/navigation"; // Importing navigation hooks
 
+import { SingleImageDropzone } from '@/app/components/SingleImageDropzone';
+import { useEdgeStore } from '@/lib/edgestore';
+
 export default function Myevent() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const loading = status === "loading";
-  
+  const [file, setFile] = useState(); // Updated line
+  const { edgestore } = useEdgeStore();
+
   useEffect(() => {
     if (!loading && session) {
       fetchMyEvents();
@@ -29,7 +34,7 @@ export default function Myevent() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [Myevents, setMyevents] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!session || !session.user) {
@@ -44,7 +49,21 @@ export default function Myevent() {
     if (!formData.date) formErrors.date = "Date & Time are required.";
     if (!formData.maxjoin) formErrors.maxjoin = "Max count is required.";
     if (!formData.description) formErrors.description = "Description is required.";
+    if (!file) formErrors.image = "Image is required"; // Updated line
 
+    let imageUrl = null;
+    if (file) {
+      const res = await edgestore.publicFiles.upload({
+        file,
+        onProgressChange: (progress) => {
+          // you can use this to show a progress bar
+          console.log(progress);
+        },
+      });
+      // you can run some server action or api here
+      // to add the necessary data to your database
+      imageUrl = res.url;
+    }
     if (Object.keys(formErrors).length > 0) {
         setErrors(formErrors);
         return;
@@ -53,7 +72,7 @@ export default function Myevent() {
     const submitData = {
         ...formData,
         Owner_id: session.user.id,
-        image: "/DetailBanner.png",
+        image: imageUrl || "/DetailBanner.png",
     };
 
     if (mode === "create") {
@@ -108,6 +127,7 @@ export default function Myevent() {
           date: "",
           maxjoin: "",
           description: "",
+
       });
           setErrors({});
           setOpenModal(false);
@@ -121,6 +141,7 @@ export default function Myevent() {
       description: ""
     });
     setErrors({});
+    setFile(null); // Reset the file state to null
     setOpenModal(false);
   };
 
@@ -233,8 +254,15 @@ export default function Myevent() {
           <div className="space-y-6 mt-5">
             <form onSubmit={handleSubmit}>
               <div className="sm:flex justify-between items-center">
-                <button type="button" className="mr-2 w-full sm:w-4/12 h-40 border-2 border-slate-300 rounded-3xl flex flex-col content-center items-center justify-center">
-                  <FaPlus className="text-4xl text-customRed" />
+                <button type="button" className="mr-2 w-full sm:w-4/12 h-40 rounded-3xl flex flex-col content-center items-center justify-center">
+                  <SingleImageDropzone
+                    width={200}
+                    height={200}
+                    value={file}
+                    onChange={(file) => {
+                      setFile(file);
+                    }}
+                  />
                 </button>
 
                 <div>

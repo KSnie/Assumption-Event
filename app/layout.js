@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Nav from "@/app/components/Navigation";
 import { AuthProvider } from "./Providers";
+import { EdgeStoreProvider } from "../lib/edgestore";  // Import the EdgeStoreProvider
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +27,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <Nav />
-
-          {children}
+          <EdgeStoreProvider> {/* Wrap the children with EdgeStoreProvider */}
+            <Nav />
+            {children}
+          </EdgeStoreProvider>
         </AuthProvider>
       </body>
     </html>
