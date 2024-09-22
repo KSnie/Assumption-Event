@@ -32,7 +32,7 @@ export default function Myevent() {
       const data = await response.json();
       setTickets(data);
     } catch (error) {
-      console.error("Failed to fetch tickets:", error);
+      // console.error("Failed to fetch tickets:", error);
     }
   }
 
@@ -84,15 +84,15 @@ export default function Myevent() {
 
       if (response.ok) {
         const updatedTicket = await response.json();
-        console.log("Ticket updated successfully:", updatedTicket);
+        // console.log("Ticket updated successfully:", updatedTicket);
         // Optionally, you can refresh the tickets after update
         fetchTickets();
         setOpenModal(false); // Close modal after update
       } else {
-        console.error("Failed to update ticket");
+        // console.error("Failed to update ticket");
       }
     } catch (error) {
-      console.error("Error while updating ticket:", error);
+      // console.error("Error while updating ticket:", error);
     }
   };
 

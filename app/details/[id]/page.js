@@ -3,18 +3,18 @@ import EventDetailsComponent from '@/app/components/EventDetailsComponent';
 import { FiHome } from "react-icons/fi";
 
 export default async function Details({ params }) {
-    console.log(params.id);
+    // console.log(params.id);
     const res = await fetch(`/api/event/${params.id}`, { cache: "no-store" });
 
     // Check if the response is OK (status in the range 200-299)
     if (!res.ok) {
         const errorText = await res.text(); // Get the error message
-        console.error('Error fetching data:', errorText);
+        // console.error('Error fetching data:', errorText);
         return <div className="xl:ml-72 lg:ml-72 md:ml-72 sm:ml-72 ml-3">Error fetching data. Please try again later.</div>;
     }
 
     const dataDetails = await res.json();
-    console.log(dataDetails);
+    // console.log(dataDetails);
 
     return (
         <div className="xl:ml-72 lg:ml-72 md:ml-72 sm:ml-72 ml-3">

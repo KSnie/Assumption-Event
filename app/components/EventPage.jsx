@@ -14,11 +14,11 @@ export default function EventPage() {
             const data = await res.json();
             setEvents(data);
         } catch (error) {
-            console.error("Failed to fetch events", error);
+            // console.error("Failed to fetch events", error);
         }
     };
 
-    console.log(events);
+    // console.log(events);
 
     return (
         <div className="p-4">

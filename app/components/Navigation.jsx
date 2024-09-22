@@ -15,7 +15,7 @@ export default function Navigation() {
         if (session?.user) {
             setIsAuthenticated(true);
             setUsername(session.user.name); // Set username if authenticated
-            console.log(session.user.id); // Log the Owner_id
+            // console.log(session.user.id); // Log the Owner_id
         } else {
             setIsAuthenticated(false);
             setUsername("");

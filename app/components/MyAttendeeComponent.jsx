@@ -17,21 +17,21 @@ export default function Myevent() {
   useEffect(() => {
     if (!loading && session) {
       fetchMyEvents();
-      console.log(Myevents);
+      // console.log(Myevents);
     }
   }, [loading, session]);
 
   async function fetchMyEvents() {
     if (!session || !session.user) {
-      console.error("No user session available.");
+      // console.error("No user session available.");
       router.push("/signin");
       return;
     }
-    console.log(session.user.id);
+    // console.log(session.user.id);
     const response = await fetch(`/api/myevent?id=${session.user.id}`);
 
     if (response.status === 404) {
-      console.log("No events found.");
+      // console.log("No events found.");
       setMyevents([]);
       return;
     }
@@ -40,13 +40,13 @@ export default function Myevent() {
       throw new Error("Failed to fetch events");
     }
     const data = await response.json();
-    console.log("Fetched Events:", data);
+    // console.log("Fetched Events:", data);
     setMyevents(data);
     return data;
   }
 
   const handleMyAttendee = (Event_id) => {
-    console.log("Fetching Attendee : ", Event_id);
+    // console.log("Fetching Attendee : ", Event_id);
     fetchMyAttendee(Event_id);
     setOpenModal(true)
   };
@@ -75,14 +75,14 @@ export default function Myevent() {
   
       if (response.ok) {
         const updatedTicket = await response.json();
-        console.log("myattendee updated successfully:", updatedTicket);
+        // console.log("myattendee updated successfully:", updatedTicket);
         // Optionally, refresh the tickets after update
         fetchMyAttendee(e.Event_id);
       } else {
-        console.error("Failed to update ticket");
+        // console.error("Failed to update ticket");
       }
     } catch (error) {
-      console.error("Error while updating ticket:", error);
+      // console.error("Error while updating ticket:", error);
     }
   };
   
@@ -98,28 +98,28 @@ export default function Myevent() {
       });
   
       if (response.ok) {
-        console.log("Attendee deleted successfully");
+        // console.log("Attendee deleted successfully");
         // Optionally, refresh the tickets after delete
         fetchMyAttendee(e.Event_id);
       } else {
-        console.error("Failed to delete attendee");
+        // console.error("Failed to delete attendee");
       }
     } catch (error) {
-      console.error("Error while deleting attendee:", error);
+      // console.error("Error while deleting attendee:", error);
     }
   };
 
   async function fetchMyAttendee(Event_id) {
     if (!session || !session.user) {
-      console.error("No user session available.");
+      // console.error("No user session available.");
       router.push("/signin");
       return;
     }
-    console.log(session.user.id);
+    // console.log(session.user.id);
     const response = await fetch(`/api/myattendee?id=${Event_id}`);
 
     if (response.status === 404) {
-      console.log("No Attendee found.");
+      // console.log("No Attendee found.");
       setAttendeeList([]);
       return;
     }
@@ -128,7 +128,7 @@ export default function Myevent() {
       throw new Error("Failed to fetch Attendee");
     }
     const data = await response.json();
-    console.log("Fetched Attendee:", data);
+    // console.log("Fetched Attendee:", data);
     setAttendeeList(data);
     return data;
   }

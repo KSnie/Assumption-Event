@@ -38,7 +38,7 @@ export default function Myevent() {
     e.preventDefault();
 
     if (!session || !session.user) {
-      console.error("No user session available.");
+      // console.error("No user session available.");
       router.push("/signin");
       return; // or handle this case appropriately
     }
@@ -57,7 +57,7 @@ export default function Myevent() {
         file,
         onProgressChange: (progress) => {
           // you can use this to show a progress bar
-          console.log(progress);
+          // console.log(progress);
         },
       });
       // you can run some server action or api here
@@ -77,7 +77,7 @@ export default function Myevent() {
 
     if (mode === "create") {
         // Create event
-        console.log("Submitting Form Data:", submitData);
+        // console.log("Submitting Form Data:", submitData);
         fetch("/api/myevent", {
             method: "POST",
             headers: {
@@ -92,11 +92,11 @@ export default function Myevent() {
                 return response.json();
             })
             .then((data) => {
-                console.log("Form Data Submitted:", data);
+                // console.log("Form Data Submitted:", data);
                 fetchMyEvents();
             })
             .catch((error) => {
-                console.error("Form Data Error:", error);
+                // console.error("Form Data Error:", error);
             });
     } else {
         // Update event
@@ -115,11 +115,11 @@ export default function Myevent() {
                 return response.json();
             })
             .then((data) => {
-                console.log("Form Data Updated:", data);
+                // console.log("Form Data Updated:", data);
                 fetchMyEvents();
             })
             .catch((error) => {
-                console.error("Update Error:", error);
+                // console.error("Update Error:", error);
             });
     }
       setFormData({
@@ -167,15 +167,15 @@ export default function Myevent() {
 
   async function fetchMyEvents() {
     if (!session || !session.user) {
-      console.error("No user session available.");
+      // console.error("No user session available.");
       router.push("/signin");
       return; // or handle this case appropriately
     }
-    console.log(session.user.id); // Log the Owner_id
+    // console.log(session.user.id); // Log the Owner_id
     const response = await fetch(`/api/myevent?id=${session.user.id}`);
 
     if (response.status === 404) {
-      console.log("No events found.");
+      // console.log("No events found.");
       setMyevents([]);
       return; // or handle this case appropriately
     }
@@ -184,7 +184,7 @@ export default function Myevent() {
       throw new Error("Failed to fetch events");
     }
     const data = await response.json();
-    console.log("Fetched Events:", data);
+    // console.log("Fetched Events:", data);
     setMyevents(data);
     return data;
   }
@@ -204,12 +204,12 @@ export default function Myevent() {
         return response.json();
       })
       .then((data) => {
-        console.log("Event Deleted:", data);
+        // console.log("Event Deleted:", data);
         fetchMyEvents();
         handleReset();
       })
       .catch((error) => {
-        console.error("Delete Error:", error);
+        // console.error("Delete Error:", error);
       });
   }
 

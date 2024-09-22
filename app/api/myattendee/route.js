@@ -14,7 +14,7 @@ export async function POST(request) {
         newAttendee.Attendee_id = newAttendee._id.toString();
         await newAttendee.save();
         
-        console.log(newAttendee);
+        // console.log(newAttendee);
 
         return new Response(JSON.stringify({ message: "Attendee created successfully" }), {
             status: 201,
@@ -61,7 +61,7 @@ export async function GET(request) {
             })
         );
 
-        console.log(attendeesWithTickets);
+        // console.log(attendeesWithTickets);
 
         return new Response(JSON.stringify(attendeesWithTickets), { status: 200 });
     } catch (error) {
@@ -76,7 +76,7 @@ export async function PUT(request) {
     try {
         const body = await request.json();
         const { id, ...updatedData } = body; // Extract id and the rest of the data
-        // console.log(body);
+        // // console.log(body);
         // Find the Myattendee by ID and update it
         const ticket = await Myattendee.findByIdAndUpdate(id, updatedData, { new: true });
 

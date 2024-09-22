@@ -7,10 +7,10 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        console.log("Credentials:", credentials);
+        // console.log("Credentials:", credentials);
 
         const user = await User.findOne({ username: credentials.username });
-        console.log("User:", user);
+        // console.log("User:", user);
 
         if (!user) {
           throw new Error("No user found with the given username");

@@ -44,7 +44,7 @@ export default function EventDetails({ details }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Registration Data:", submitDatax);
+        // console.log("Registration Data:", submitDatax);
         fetch("/api/myticket", {
             method: "POST",
             headers: {
@@ -61,10 +61,10 @@ export default function EventDetails({ details }) {
                 return response.json();
             })
             .then((data) => {
-                console.log("Form Data Submitted:", data);
+                // console.log("Form Data Submitted:", data);
             })
             .catch((error) => {
-                console.error("Form Data Error:", error);
+                // console.error("Form Data Error:", error);
             });
     };
 
@@ -81,15 +81,15 @@ export default function EventDetails({ details }) {
 
     async function fetchMyAttendee() {
         if (!session || !session.user) {
-          console.error("No user session available.");
+          // console.error("No user session available.");
           router.push("/signin");
           return;
         }
-        console.log(session.user.id);
+        // console.log(session.user.id);
         const response = await fetch(`/api/myattendee?id=${details._id}`);
     
         if (response.status === 404) {
-          console.log("No Attendee found.");
+          // console.log("No Attendee found.");
           return;
         }
     
@@ -98,7 +98,7 @@ export default function EventDetails({ details }) {
         }
         const data = await response.json();
         setAttendeeCount(data.length);
-        console.log("Fetched Attendee:", data);
+        // console.log("Fetched Attendee:", data);
         return data;
     }
 
@@ -112,7 +112,7 @@ export default function EventDetails({ details }) {
 
     return (
         <div>
-                {console.log(details)}
+                {// console.log(details)}
                 <div key={details._id} className="w-11/12 mb-10"> {/* Unique key and spacing */}
                     <div className="w-CustomW h-14 bg-slate-500 -ml-10 mt-5 -mr-96 lg:-mr-0 content-center">
                         <h1 className="font-bold text-white text-1xl ml-10">{details.title}</h1>

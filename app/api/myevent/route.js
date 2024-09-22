@@ -13,7 +13,7 @@ export async function POST(request) {
         newEvent.Event_id = newEvent._id.toString();
         await newEvent.save();
         
-        console.log(newEvent);
+        // console.log(newEvent);
 
         return new Response(JSON.stringify({ message: "Event created successfully" }), {
             status: 201,
@@ -89,7 +89,7 @@ export async function PUT(request) {
 export async function DELETE(request) {
     try {
         const body = await request.json();
-        console.log(body);
+        // console.log(body);
 
         const deletedEvent = await Myevent.findByIdAndDelete(body._id);
 

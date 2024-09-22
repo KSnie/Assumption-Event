@@ -33,7 +33,7 @@ export async function POST(request) {
             Code: generateRandomCode(6), // Random 6-letter code
             Amount: "1",
         });
-        console.log("Request Bodyxx:", newTicket);
+        // console.log("Request Bodyxx:", newTicket);
         await newTicket.save();
 
         // // Update T_ID after saving the ticket
@@ -111,7 +111,7 @@ export async function GET(request) {
             };
         });
 
-        console.log("Tickets with details:", ticketsWithDetails);
+        // console.log("Tickets with details:", ticketsWithDetails);
         return new Response(JSON.stringify(ticketsWithDetails), { status: 200 });
     } catch (error) {
         return new Response(
