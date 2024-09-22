@@ -52,7 +52,7 @@ export default function Myevent() {
     if (!file) formErrors.image = "Image is required"; // Updated line
 
     let imageUrl = null;
-    if (file) {
+    if (file.path) {
       const res = await edgestore.publicFiles.upload({
         file,
         onProgressChange: (progress) => {
@@ -72,7 +72,7 @@ export default function Myevent() {
     const submitData = {
         ...formData,
         Owner_id: session.user.id,
-        image: imageUrl || "/DetailBanner.png",
+        image: imageUrl || file,
     };
 
     if (mode === "create") {
@@ -100,6 +100,7 @@ export default function Myevent() {
             });
     } else {
         // Update event
+        
         submitData.id = selectedEvent._id; // Add the event ID to the data
         fetch(`/api/myevent`, {
             method: "PUT",
@@ -115,11 +116,11 @@ export default function Myevent() {
                 return response.json();
             })
             .then((data) => {
-                // console.log("Form Data Updated:", data);
+                console.log("Form Data Updated:", data);
                 fetchMyEvents();
             })
             .catch((error) => {
-                // console.error("Update Error:", error);
+                console.error("Update Error:", error);
             });
     }
       setFormData({
@@ -162,6 +163,7 @@ export default function Myevent() {
       description: event.description
     });
     setSelectedEvent(event);
+    setFile(event.image); // Set the file state to the image URL
     setMode("update");
     setOpenModal(true);
   };
@@ -235,7 +237,6 @@ export default function Myevent() {
 
         <button className="relative w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96" onClick={() => {
           setMode("create");
-          setSelectedEvent(null);
           setOpenModal(true);
         }}>
           <div className="bg-rose-100 w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96 rounded-3xl flex justify-center items-center">
