@@ -4,8 +4,7 @@ import { FiHome } from "react-icons/fi";
 
 export default async function Details({ params }) {
     // console.log(params.id);
-    const res = await fetch(`/api/event/${params.id}`, { cache: "no-store" });
-
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/event/${params.id}`, { cache: "no-store" });
     // Check if the response is OK (status in the range 200-299)
     if (!res.ok) {
         const errorText = await res.text(); // Get the error message

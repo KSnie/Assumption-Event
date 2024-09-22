@@ -124,7 +124,7 @@ export default function EventDetails({ details }) {
                             </h1>
                             <div className="flex flex-col xl:flex-row content-center justify-center lg:justify-between items-center">
                                 <img src={details.image} alt="Event Image" className="w-8/12 lg:w-11/12 rounded-2xl mt-10 lg:m-10 lg:ml-16 -ml-5" />
-                                <pre className="text-xxs md:text-xss lg:text-sm">{details.description.replace(/\n/g, "<br />")}</pre> {/* Preserve line breaks */}
+                                <pre className="text-xxs md:text-xss lg:text-sm">{details.description}</pre> {/* Preserve line breaks */}
                             </div>
 
                             <button className="mt-5 w-9/12 lg:w-11/12 h-10 lg:h-14 bg-customRed rounded-3xl" onClick={() => handleOpenModal()}>
