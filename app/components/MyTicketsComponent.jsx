@@ -117,7 +117,7 @@ export default function Myevent() {
 
       {/* Ticket Display */}
       <div className={`flex flex-wrap gap-3 xl:gap-20 md:gap-6 transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'} z-50`}>
-        {(showUsedTickets ? UsedTickets : MyTickets).map((event) => (
+        {(showUsedTickets ? UsedTickets : MyTickets)?.map((event) => (
           <div key={event.T_ID} className="relative w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96">
             <div className={`absolute top-0 left-0 right-0 h-full ${showUsedTickets ? 'bg-black/50 z-50' : ''} rounded-3xl`} />
 

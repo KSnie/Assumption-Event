@@ -52,7 +52,7 @@ export async function GET(request) {
         }
 
         const attendeesWithTickets = await Promise.all(
-            attendees.map(async (attendee) => {
+            attendees?.map(async (attendee) => {
                 const ticket = await Myticket.findById(attendee.Tickets_ID);
                 return {
                     ...attendee, // Spread the attendee data

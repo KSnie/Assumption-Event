@@ -141,7 +141,7 @@ export default function Myevent() {
   return (
     <div className="p-4">
       <div className="flex flex-wrap gap-3 xl:gap-20 md:gap-6">
-        {Myevents.map((event) => (
+        {Myevents?.map((event) => (
           <div
             key={event.Event_id}
             className="relative w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72  xl:w-72 xl:h-96"
@@ -188,7 +188,7 @@ export default function Myevent() {
                 <Table.HeadCell>OPTION</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {filteredAttendeeList.map((attendee) => (
+                {filteredAttendeeList?.map((attendee) => (
                   <Table.Row key={attendee._doc.Attendee_id}>
                     <Table.Cell>
                       <div className="flex flex-col">

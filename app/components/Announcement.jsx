@@ -39,7 +39,7 @@ export default function Announcement() {
           className="relative w-full h-full flex transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {slides.map((slide, index) => (
+          {slides?.map((slide, index) => (
             <div
               key={index}
               className="w-full h-full flex-shrink-0"
@@ -55,7 +55,7 @@ export default function Announcement() {
       </div>
       
       <div className="absolute z-30 flex justify-center bottom-5 left-1/2 transform -translate-x-1/2 space-x-3">
-        {slides.map((_, index) => (
+        {slides?.map((_, index) => (
           <button
             key={index}
             className={`w-3 h-3 rounded-full ${index === currentIndex ? 'bg-slate-600' : 'bg-gray-300'}`}

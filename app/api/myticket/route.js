@@ -92,15 +92,15 @@ export async function GET(request) {
         }
 
         // Extract Event_ids from tickets to fetch event details
-        const eventIds = tickets.map(ticket => ticket.Event_id);
+        const eventIds = tickets?.map(ticket => ticket.Event_id);
 
         const events = await Myevent.find({ Event_id: { $in: eventIds } });
         // Fetch attendees related to the tickets
-        const attendeeIds = tickets.map(ticket => ticket.T_ID);
+        const attendeeIds = tickets?.map(ticket => ticket.T_ID);
         const attendees = await Myattendee.find({ Tickets_ID: { $in: attendeeIds } });
 
         // Merge event and attendee data into each ticket
-        const ticketsWithDetails = tickets.map(ticket => {
+        const ticketsWithDetails = tickets?.map(ticket => {
             const event = events.find(evt => evt.Event_id === ticket.Event_id);
             const attendee = attendees.find(att => att.Tickets_ID === ticket.T_ID);
             

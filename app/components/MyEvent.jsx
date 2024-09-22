@@ -216,7 +216,7 @@ export default function Myevent() {
   return (
     <div className="p-4">
       <div className="flex flex-wrap gap-3 xl:gap-20 md:gap-6">
-        {Myevents.map(event => (
+        {Myevents?.map(event => (
           <div key={event._id} className="relative w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96">
             <img src={event.image} alt="Event Image" className="w-40 h-72 sm:w-72 sm:h-80 md:w-56 md:h-72 xl:w-72 xl:h-96 rounded-3xl" />
             <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-white w-full h-16 sm:h-12 md:h-14">

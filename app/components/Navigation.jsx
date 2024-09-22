@@ -102,7 +102,7 @@ export default function Navigation() {
 
                     {/* Header Menu */}
                     <ul className="my-3 font-medium rounded-2xl">
-                        {headMenuItems.map((item, index) => (
+                        {headMenuItems?.map((item, index) => (
                             <li key={index}>
                                 <a
                                     href={item.path}
@@ -120,7 +120,7 @@ export default function Navigation() {
                     {/* Main Menu */}
                     <h2 className="mb-3 text-sm font-medium mx-2 text-gray-600">Manager</h2>
                     <ul className="space-y-2 font-medium">
-                        {menuItems.map((item, index) => (
+                        {menuItems?.map((item, index) => (
                             <li key={index}>
                                 <a
                                     href={item.path}
@@ -139,7 +139,7 @@ export default function Navigation() {
                     {/* Second Menu */}
                     <h2 className="mb-3 text-sm font-medium mx-2 text-gray-600">Ticket</h2>
                     <ul className="space-y-2 font-medium">
-                        {secondMenuItems.map((item, index) => (
+                        {secondMenuItems?.map((item, index) => (
                             <li key={index}>
                                 <a
                                     href={item.path}
@@ -163,7 +163,7 @@ export default function Navigation() {
                         )}
 
                         <ul className="space-y-2 font-medium">
-                            {footerMenuItems.map((item, index) => (
+                            {footerMenuItems?.map((item, index) => (
                                 <li key={index}>
                                     {item.action ? (
                                         <button
