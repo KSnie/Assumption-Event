@@ -112,7 +112,6 @@ export default function EventDetails({ details }) {
 
     return (
         <div>
-                {// console.log(details)}
                 <div key={details._id} className="w-11/12 mb-10"> {/* Unique key and spacing */}
                     <div className="w-CustomW h-14 bg-slate-500 -ml-10 mt-5 -mr-96 lg:-mr-0 content-center">
                         <h1 className="font-bold text-white text-1xl ml-10">{details.title}</h1>
@@ -139,7 +138,6 @@ export default function EventDetails({ details }) {
                     </div>
                 </div>
 
-            {/* Modal for Registration */}
             <Modal show={openModal} size="lg" onClose={() => setOpenModal(false)}>
                 <Modal.Body>
                     <h1 className="font-semibold text-lg text-slate-400 mb-5">Event Registration</h1>
