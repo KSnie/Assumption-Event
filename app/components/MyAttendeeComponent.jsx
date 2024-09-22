@@ -10,9 +10,10 @@ export default function Myevent() {
   const [openModal, setOpenModal] = useState(false);
   const { data: session, status } = useSession();
   const [Myevents, setMyevents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // Add search query state
   const [AttendeeList, setAttendeeList] = useState([]);
   const loading = status === "loading";
-  
+
   useEffect(() => {
     if (!loading && session) {
       fetchMyEvents();
@@ -50,6 +51,64 @@ export default function Myevent() {
     setOpenModal(true)
   };
 
+  // Handle the form submission to update the Attendee
+  const handleUpdateSubmit = async (e) => {
+    try {
+      // Determine the status based on the condition
+      const updatedStatus = e.Status === "REGISTERED" ? "JOINED" : "REGISTERED";
+  
+      // Construct the request body
+      const requestBody = {
+        id: e.Attendee_id, // myattendee ID
+        ...e,
+        Status: updatedStatus // Updated myattendee status
+      };
+  
+      // Perform the fetch request
+      const response = await fetch(`/api/myattendee`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody) // Pass the constructed body
+      });
+  
+      if (response.ok) {
+        const updatedTicket = await response.json();
+        console.log("myattendee updated successfully:", updatedTicket);
+        // Optionally, refresh the tickets after update
+        fetchMyAttendee(e.Event_id);
+      } else {
+        console.error("Failed to update ticket");
+      }
+    } catch (error) {
+      console.error("Error while updating ticket:", error);
+    }
+  };
+  
+  const handleDeleteAttendee = async (e) => {
+    try {
+      // Perform the fetch request
+      const response = await fetch(`/api/myattendee`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: e.Attendee_id }) // Pass the attendee ID
+      });
+  
+      if (response.ok) {
+        console.log("Attendee deleted successfully");
+        // Optionally, refresh the tickets after delete
+        fetchMyAttendee(e.Event_id);
+      } else {
+        console.error("Failed to delete attendee");
+      }
+    } catch (error) {
+      console.error("Error while deleting attendee:", error);
+    }
+  };
+
   async function fetchMyAttendee(Event_id) {
     if (!session || !session.user) {
       console.error("No user session available.");
@@ -73,6 +132,11 @@ export default function Myevent() {
     setAttendeeList(data);
     return data;
   }
+
+    // Filtered Attendee List based on search query
+  const filteredAttendeeList = AttendeeList.filter((attendee) =>
+    attendee.ticket.Code.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="p-4">
@@ -113,6 +177,7 @@ export default function Myevent() {
             type="text"
             className="w-full rounded-lg"
             placeholder="EVENT CODE"
+            onChange={(e) => setSearchQuery(e.target.value)} // Update search query on input change
           />
           <div className="overflow-x-auto mt-5 max-h-[350px] overflow-y-auto">
             <Table hoverable>
@@ -123,7 +188,7 @@ export default function Myevent() {
                 <Table.HeadCell>OPTION</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {AttendeeList.map((attendee) => (
+                {filteredAttendeeList.map((attendee) => (
                   <Table.Row key={attendee._doc.Attendee_id}>
                     <Table.Cell>
                       <div className="flex flex-col">
@@ -148,14 +213,14 @@ export default function Myevent() {
                         <Button
                           size="xs"
                           color="success"
-                          onClick={() => console.log("Joined")}
+                          onClick={() => handleUpdateSubmit(attendee._doc)}
                         >
                           JOIN
                         </Button>
                         <Button
                           size="xs"
                           color="failure"
-                          onClick={() => console.log("Deleted")}
+                          onClick={() => handleDeleteAttendee(attendee._doc)}
                         >
                           DELETE
                         </Button>
@@ -169,7 +234,7 @@ export default function Myevent() {
         </Modal.Body>
         <Modal.Footer className="flex flex-col justify-center mt-4">
           <div className="flex flex-col justify-center w-3/4">
-            <Button onClick={() => setOpenModal(false)} className="bg-customRed w-full">
+            <Button onClick={() => {setOpenModal(false),setSearchQuery("") }} className="bg-customRed w-full">
               CLOSE
             </Button>
           </div>

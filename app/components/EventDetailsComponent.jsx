@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { MdPeopleAlt } from "react-icons/md";
 import { Modal, Button, Select } from "flowbite-react";
 import { useSession } from "next-auth/react";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"; // Importing navigation hooks
 export default function EventDetails({ details }) {
     const router = useRouter();
     const { data: session, status } = useSession();
-
+    const [attendeeCount, setAttendeeCount] = useState(0);
     const [openModal, setOpenModal] = useState(false);
     const [formData, setFormData] = useState({
         Fname: "",
@@ -18,6 +18,15 @@ export default function EventDetails({ details }) {
         Year: "",
         Faculty: "",
     });
+
+    useEffect(() => {
+        if (!session) {
+            router.push("/signin");
+        }else{
+            fetchMyAttendee();
+        }
+    }, [session]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -29,7 +38,7 @@ export default function EventDetails({ details }) {
 
     const submitDatax = {
         ...formData,
-        Owner: session.user.id,
+        Owner: session?.user.id,
         Event: details._id,
     };
 
@@ -70,8 +79,40 @@ export default function EventDetails({ details }) {
         setOpenModal(false);
     };
 
+    async function fetchMyAttendee() {
+        if (!session || !session.user) {
+          console.error("No user session available.");
+          router.push("/signin");
+          return;
+        }
+        console.log(session.user.id);
+        const response = await fetch(`/api/myattendee?id=${details._id}`);
+    
+        if (response.status === 404) {
+          console.log("No Attendee found.");
+          return;
+        }
+    
+        if (!response.ok) {
+          throw new Error("Failed to fetch Attendee");
+        }
+        const data = await response.json();
+        setAttendeeCount(data.length);
+        console.log("Fetched Attendee:", data);
+        return data;
+    }
+
+    const handleOpenModal = () => {
+        if (attendeeCount >= details.maxjoin) {
+            alert("Event is full");
+            return;
+        }
+        setOpenModal(true);
+    }
+
     return (
         <div>
+                {console.log(details)}
                 <div key={details._id} className="w-11/12 mb-10"> {/* Unique key and spacing */}
                     <div className="w-CustomW h-14 bg-slate-500 -ml-10 mt-5 -mr-96 lg:-mr-0 content-center">
                         <h1 className="font-bold text-white text-1xl ml-10">{details.title}</h1>
@@ -80,14 +121,14 @@ export default function EventDetails({ details }) {
                     <div className="flex flex-col items-center">
                         <div className="w-11/12 shadow mt-10 rounded-3xl flex flex-col items-center">
                             <h1 className="absolute lg:right-52 mt-3 flex items-center">
-                                <MdPeopleAlt /> 0 / {details.maxjoin}
+                                <MdPeopleAlt /> {attendeeCount}/ {details.maxjoin}
                             </h1>
                             <div className="flex flex-col xl:flex-row content-center justify-center lg:justify-between items-center">
                                 <img src={details.image} alt="Event Image" className="w-8/12 lg:w-11/12 rounded-2xl mt-10 lg:m-10 lg:ml-16 -ml-5" />
                                 <pre className="text-xxs md:text-xss lg:text-sm">{details.description.replace(/\n/g, "<br />")}</pre> {/* Preserve line breaks */}
                             </div>
 
-                            <button className="mt-5 w-9/12 lg:w-11/12 h-10 lg:h-14 bg-customRed rounded-3xl" onClick={() => setOpenModal(true)}>
+                            <button className="mt-5 w-9/12 lg:w-11/12 h-10 lg:h-14 bg-customRed rounded-3xl" onClick={() => handleOpenModal()}>
                                 <h1 className="text-white font-bold">REGISTER</h1>
                             </button>
 

@@ -71,3 +71,53 @@ export async function GET(request) {
         );
     }
 }
+
+export async function PUT(request) {
+    try {
+        const body = await request.json();
+        const { id, ...updatedData } = body; // Extract id and the rest of the data
+        // console.log(body);
+        // Find the Myattendee by ID and update it
+        const ticket = await Myattendee.findByIdAndUpdate(id, updatedData, { new: true });
+
+        if (!ticket) {
+            return new Response(
+                JSON.stringify({ error: "Myattendee not found" }),
+                { status: 404 }
+            );
+        }
+
+        return new Response(JSON.stringify(ticket), { status: 200 });
+    } catch (error) {
+        return new Response(
+            JSON.stringify({ error: "Failed to update Myattendee", details: error.message }),
+            { status: 500 }
+        );
+    }
+}
+
+
+export async function DELETE(request) {
+    try {
+        const body = await request.json();
+        const { id } = body; // Extract id
+
+        // Find the Myattendee by ID and delete it
+        const ticket = await Myattendee.findByIdAndDelete(id);
+        const ticket2 = await Myticket.findByIdAndDelete(ticket.Tickets_ID);
+
+        if (!ticket) {
+            return new Response(
+                JSON.stringify({ error: "Myattendee not found" }),
+                { status: 404 }
+            );
+        }
+
+        return new Response(JSON.stringify({ message: "Myattendee deleted successfully" }), { status: 200 });
+    } catch (error) {
+        return new Response(
+            JSON.stringify({ error: "Failed to delete Myattendee", details: error.message }),
+            { status: 500 }
+        );
+    }
+}

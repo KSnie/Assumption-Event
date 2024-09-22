@@ -42,9 +42,9 @@ export default function Myevent() {
     }
   }, [status]);
 
-  const MyTickets = tickets.filter((ticket) => ticket.Status !== "JOINED");
-  const UsedTickets = tickets.filter((ticket) => ticket.Status === "JOINED");
-
+  const MyTickets = Array.isArray(tickets) ? tickets.filter((ticket) => ticket.Status !== "JOINED") : [];
+  const UsedTickets = Array.isArray(tickets) ? tickets.filter((ticket) => ticket.Status === "JOINED") : [];
+  
   // Update form data when a field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;

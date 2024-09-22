@@ -2,6 +2,24 @@ import Myticket from "@/models/Mytickets";
 import Myattendee from "@/models/Myattendee";
 import Myevent from "@/models/Myevent";
 
+function generateRandomCode() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    let result = '';
+
+    // Generate 3 random uppercase letters
+    for (let i = 0; i < 3; i++) {
+        result += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+
+    // Generate 3 random numbers
+    for (let i = 0; i < 3; i++) {
+        result += numbers.charAt(Math.floor(Math.random() * numbers.length));
+    }
+
+    return result;
+}
+
 export async function POST(request) {
     try {
         const body = await request.json();
@@ -12,7 +30,7 @@ export async function POST(request) {
             Attendee_id: "none",
             Event_id: body.Event,
             Onwer_id: body.Owner,
-            Code: "XXXXX",
+            Code: generateRandomCode(6), // Random 6-letter code
             Amount: "1",
         });
         console.log("Request Bodyxx:", newTicket);
@@ -126,7 +144,6 @@ export async function PUT(request) {
         );
     }
 }
-
 
 
 
