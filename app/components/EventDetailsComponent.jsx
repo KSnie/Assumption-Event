@@ -86,7 +86,7 @@ export default function EventDetails({ details }) {
           return;
         }
         // console.log(session.user.id);
-        const response = await fetch(`/api/myattendee?id=${details._id}`);
+        const response = await fetch(`/api/myattendee?id=${details._id}`, { cache: "no-store" });
     
         if (response.status === 404) {
           // console.log("No Attendee found.");

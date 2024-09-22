@@ -28,7 +28,7 @@ export default function Myevent() {
 
   async function fetchTickets() {
     try {
-      const response = await fetch(`/api/myticket?id=${session.user.id}`);
+      const response = await fetch(`/api/myticket?id=${session.user.id}`, { cache: "no-store" });
       const data = await response.json();
       setTickets(data);
     } catch (error) {

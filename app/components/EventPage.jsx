@@ -10,7 +10,7 @@ export default function EventPage() {
 
     const fetchAllEvents = async () => {
         try {
-            const res = await fetch("/api/event");
+            const res = await fetch("/api/event", { cache: "no-store" });
             const data = await res.json();
             setEvents(Array.isArray(data) ? data : []);
         } catch (error) {

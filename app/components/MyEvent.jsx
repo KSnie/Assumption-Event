@@ -175,7 +175,7 @@ export default function Myevent() {
       return; // or handle this case appropriately
     }
     // console.log(session.user.id); // Log the Owner_id
-    const response = await fetch(`/api/myevent?id=${session.user.id}`);
+    const response = await fetch(`/api/myevent?id=${session.user.id}`, { cache: "no-store" });
 
     if (response.status === 404) {
       // console.log("No events found.");

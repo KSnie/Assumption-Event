@@ -28,7 +28,7 @@ export default function Myevent() {
       return;
     }
     // console.log(session.user.id);
-    const response = await fetch(`/api/myevent?id=${session.user.id}`);
+    const response = await fetch(`/api/myevent?id=${session.user.id}`, { cache: "no-store" });
 
     if (response.status === 404) {
       // console.log("No events found.");
@@ -116,7 +116,7 @@ export default function Myevent() {
       return;
     }
     // console.log(session.user.id);
-    const response = await fetch(`/api/myattendee?id=${Event_id}`);
+    const response = await fetch(`/api/myattendee?id=${Event_id}`, { cache: "no-store" });
 
     if (response.status === 404) {
       // console.log("No Attendee found.");
