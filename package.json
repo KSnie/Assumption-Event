@@ -11,7 +11,6 @@
   "dependencies": {
     "@edgestore/react": "^0.2.2",
     "@edgestore/server": "^0.2.2",
-    "@uploadthing/react": "^7.0.2",
     "bcryptjs": "^2.4.3",
     "flowbite": "^2.5.1",
     "flowbite-react": "^0.10.1",
@@ -24,7 +23,6 @@
     "react-dropzone": "^14.2.3",
     "react-icons": "^5.3.0",
     "tailwind-merge": "^2.5.2",
-    "uploadthing": "^7.0.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
