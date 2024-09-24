@@ -20,9 +20,8 @@ Image Ref : From AUSO ABAC
 
 ## How to use video
 
-```
-* [How-to-use](https://edgestore.dev/) <- Click this link to see how to use
-```
+* [How-to-use](https://youtu.be/CTsGOpO6Rso) <- Click this link to see how to use
+
 
 ## Vercel link
 
