@@ -10,7 +10,7 @@ MaxJOin
 
 [Attendee]
 
-ATT_ID -
+ATT_ID - x
 E_ID -
 Tickets_ID
 CurrentJoin -
