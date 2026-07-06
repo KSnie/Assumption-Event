@@ -20,7 +20,7 @@ export default async function Home() {
       </div>
 
       {/* Content on top of the background */}
-      <div className="relative z-10 p-10">
+      <div className="relative z-10 p-5 sm:p-10">
           <div className="flex items-center mt-10">
               <FiHome className="text-lg mr-2 text-white" />
               <h1 className="text-lg font-light text-white">/ Signin</h1>

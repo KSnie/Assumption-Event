@@ -51,6 +51,11 @@ export default function Myevent() {
     if (!formData.description) formErrors.description = "Description is required.";
     if (!file) formErrors.image = "Image is required"; // Updated line
 
+    if (Object.keys(formErrors).length > 0) {
+        setErrors(formErrors);
+        return;
+    }
+
     let imageUrl = null;
     if (file.path) {
       const res = await edgestore.publicFiles.upload({
@@ -63,10 +68,6 @@ export default function Myevent() {
       // you can run some server action or api here
       // to add the necessary data to your database
       imageUrl = res.url;
-    }
-    if (Object.keys(formErrors).length > 0) {
-        setErrors(formErrors);
-        return;
     }
 
     const submitData = {

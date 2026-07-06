@@ -88,11 +88,11 @@ export default function Navigation() {
                 aria-label="Sidebar"
             >
                 <div className="h-full px-3 py-6 overflow-y-auto bg-customGray dark:bg-gray-800 flex flex-col">
-                    <a href="https://flowbite.com/" className="flex items-center ps-2.5 mb-5">
+                    <a href="/" className="flex items-center ps-2.5 mb-5">
                         <img
                             src="https://www.clipartmax.com/png/full/155-1551269_abac-library-assumption-university-of-thailand-logo.png"
                             className="h-9 me-6 sm:h-14"
-                            alt="Flowbite Logo"
+                            alt="Assumption University logo"
                         />
                         <div className="self-center text-center font-normal text-slate-600 text-base">
                             <h1>Assumption</h1>
@@ -124,8 +124,7 @@ export default function Navigation() {
                             <li key={index}>
                                 <a
                                     href={item.path}
-                                    className="flex items-center p-2 text-gray-600 rounded-lg hover:text-red-700 hover:bg-red-
-                                200 group"
+                                    className="flex items-center p-2 text-gray-600 rounded-lg hover:text-red-700 hover:bg-red-200 group"
                                 >
                                     <div className="bg-white w-11 h-11 rounded-lg flex justify-center items-center shadow-2xl">
                                         {item.icon}

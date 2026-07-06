@@ -10,13 +10,6 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #4b5563 ;
-  }
-}
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -30,9 +23,9 @@ body {
 }
 
 .custom-margin {
-  @apply xl:ml-72 lg:ml-72 md:ml-72 sm:ml-72 ml-5;
+  @apply ml-5 mr-5 sm:ml-72 sm:mr-8;
 }
 
 .custom-margin2 {
-  @apply xl:ml-64 lg:ml-64 md:ml-64 sm:ml-64 ml-0;
+  @apply ml-0 sm:ml-64;
 }

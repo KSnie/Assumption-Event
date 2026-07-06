@@ -112,26 +112,26 @@ export default function EventDetails({ details }) {
 
     return (
         <div>
-                <div key={details._id} className="w-11/12 mb-10"> {/* Unique key and spacing */}
-                    <div className="w-CustomW h-14 bg-slate-500 -ml-10 mt-5 -mr-96 lg:-mr-0 content-center">
-                        <h1 className="font-bold text-white text-1xl ml-10">{details.title}</h1>
-                        <h1 className="font-light text-white text-1xl ml-10">{details.date}</h1> {/* Format date */}
+                <div key={details._id} className="w-full mb-10"> {/* Unique key and spacing */}
+                    <div className="w-full bg-slate-500 mt-5 rounded-lg px-5 py-2">
+                        <h1 className="font-bold text-white">{details.title}</h1>
+                        <h1 className="font-light text-white text-sm">{details.date}</h1> {/* Format date */}
                     </div>
                     <div className="flex flex-col items-center">
-                        <div className="w-11/12 shadow mt-10 rounded-3xl flex flex-col items-center">
-                            <h1 className="absolute lg:right-52 mt-3 flex items-center">
+                        <div className="w-full max-w-4xl shadow mt-10 rounded-3xl flex flex-col items-center px-4 sm:px-8">
+                            <h1 className="self-end mt-3 flex items-center gap-1 text-slate-600">
                                 <MdPeopleAlt /> {attendeeCount}/ {details.maxjoin}
                             </h1>
-                            <div className="flex flex-col xl:flex-row content-center justify-center lg:justify-between items-center">
-                                <img src={details.image} alt="Event Image" className="w-8/12 lg:w-11/12 rounded-2xl mt-10 lg:m-10 lg:ml-16 -ml-5" />
-                                <pre className="text-xxs md:text-xss lg:text-sm">{details.description}</pre> {/* Preserve line breaks */}
+                            <div className="flex flex-col lg:flex-row items-center gap-6 w-full mt-4">
+                                <img src={details.image} alt="Event Image" className="w-full max-w-sm lg:max-w-md rounded-2xl" />
+                                <pre className="text-sm whitespace-pre-wrap break-words w-full lg:flex-1 font-sans">{details.description}</pre> {/* Preserve line breaks */}
                             </div>
 
-                            <button className="mt-5 w-9/12 lg:w-11/12 h-10 lg:h-14 bg-customRed rounded-3xl" onClick={() => handleOpenModal()}>
+                            <button className="mt-6 w-full sm:w-9/12 h-12 bg-customRed rounded-3xl" onClick={() => handleOpenModal()}>
                                 <h1 className="text-white font-bold">REGISTER</h1>
                             </button>
 
-                            <Link href="/" className="text-black font-extralight text-xs underline mb-5 mt-2">
+                            <Link href="/" className="text-black font-extralight text-xs underline mb-5 mt-3">
                                 BACK TO HOMEPAGE
                             </Link>
                         </div>

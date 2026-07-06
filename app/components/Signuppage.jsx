@@ -41,7 +41,7 @@ export default function Signuppage() {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="w-96 mt-10 sm:mr-0 mr-5">
+            <div className="w-full max-w-sm mt-10">
                 <Card>
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         <div>

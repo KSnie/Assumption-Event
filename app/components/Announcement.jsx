@@ -33,7 +33,7 @@ export default function Announcement() {
   }, []);
 
   return (
-    <div className="relative w-auto mr-8 mt-5">
+    <div className="relative w-auto mt-5">
       <div className="relative h-44 overflow-hidden rounded-lg md:h-64">
         <div
           className="relative w-full h-full flex transition-transform duration-700 ease-in-out"

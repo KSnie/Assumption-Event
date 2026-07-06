@@ -29,8 +29,8 @@ export default function Signinpage() {
     };
 
     return (
-        <div className="flex items-center justify-center mt-20">
-            <div className="w-96 mt-10 sm:mr-0">
+        <div className="flex items-center justify-center mt-10 sm:mt-20">
+            <div className="w-full max-w-sm mt-10">
                 <Card>
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         <div>

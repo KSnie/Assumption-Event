@@ -102,16 +102,16 @@ export default function Myevent() {
       <div className="w-11/12 bg-slate-100 rounded-full h-16 mb-10 content-center flex justify-center items-center z-0">
         <button
           onClick={() => handleTicketChange(false)}
-          className={`w-2/4 mr-3 ml-2 h-14 rounded-s-full content-center flex justify-center items-center z-10 ${!showUsedTickets ? 'bg-red-100' : 'bg-slate-100'}`}
+          className={`w-2/4 mr-3 ml-2 h-14 rounded-s-full content-center flex justify-center items-center z-10 ${!showUsedTickets ? 'bg-customRed' : 'bg-slate-100'}`}
         >
-          <h1 className="font-bold text-white">MY TICKETS</h1>
+          <h1 className={`font-bold text-sm sm:text-base ${!showUsedTickets ? 'text-white' : 'text-slate-500'}`}>MY TICKETS</h1>
         </button>
 
         <button
           onClick={() => handleTicketChange(true)}
-          className={`w-2/4 mr-2 h-14 rounded-e-full content-center flex justify-center items-center z-10 ${showUsedTickets ? 'bg-red-100' : 'bg-slate-100'}`}
+          className={`w-2/4 mr-2 h-14 rounded-e-full content-center flex justify-center items-center z-10 ${showUsedTickets ? 'bg-customRed' : 'bg-slate-100'}`}
         >
-          <h1 className="font-bold text-white">USED TICKETS</h1>
+          <h1 className={`font-bold text-sm sm:text-base ${showUsedTickets ? 'text-white' : 'text-slate-500'}`}>USED TICKETS</h1>
         </button>
       </div>
 
